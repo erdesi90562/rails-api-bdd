@@ -32,12 +32,20 @@ RSpec.describe 'Articles API' do  #'Articles API' test name in console.
 
       articles_response = JSON.parse(response.body) # into a ruby HASH or an ARRAY (aka: ruby object)!!!
       expect(articles_response.length).to eq(articles.count) # articles_response.length counts the things in the JSON   # ARTICLE is from active record. It counts records in the DB.
-      expect(articles_response.first['title']).to eq(article.title) # Json used sting key. to access MUST USE string key!!! NOT A SYMBOL!!!!!
+      expect(articles_response['articles'].first['title']).to eq(article.title) # Json used sting key. to access MUST USE string key!!! NOT A SYMBOL!!!!!
     end
   end
 
   describe 'GET /articles/:id' do
-    skip 'shows one article' do
+    it 'shows one article' do
+      get "/articles/#{article.id}"
+
+      expect(response).to be_success
+
+      articles_response = JSON.parse(response.body)
+      expect(articles_response['article']['id']).to eq(article.id)
+      expect(articles_response['article']['title']).to eq(article_params[:title])
+
     end
   end
 
