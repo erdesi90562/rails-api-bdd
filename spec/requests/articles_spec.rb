@@ -1,6 +1,6 @@
-require 'rails_helper'
+require 'rails_helper' #rails helper has RSpec in it.
 
-RSpec.describe 'Articles API' do
+RSpec.describe 'Articles API' do  #'Articles API' test name in console.
   def article_params
     {
       title: 'One Weird Trick',
@@ -9,30 +9,30 @@ RSpec.describe 'Articles API' do
   end
 
   def articles
-    Article.all
+    Article.all # Article is from Active record.
   end
 
   def article
     Article.first
   end
 
-  before(:all) do
+  before(:all) do # setup
     Article.create!(article_params)
   end
 
-  after(:all) do
+  after(:all) do # tare down
     Article.delete_all
   end
 
-  describe 'GET /articles' do
+  describe 'GET /articles' do # 'GET /articles' test name in console.
     it 'lists all articles' do
-      get '/articles'
+      get '/articles' # get from rails support. Actually goning to send a get request. rspect rails
 
       expect(response).to be_success
 
-      articles_response = JSON.parse(response.body)
-      expect(articles_response.length).to eq(articles.count)
-      expect(articles_response.first['title']).to eq(article.title)
+      articles_response = JSON.parse(response.body) # into a ruby HASH or an ARRAY (aka: ruby object)!!!
+      expect(articles_response.length).to eq(articles.count) # articles_response.length counts the things in the JSON   # ARTICLE is from active record. It counts records in the DB.
+      expect(articles_response.first['title']).to eq(article.title) # Json used sting key. to access MUST USE string key!!! NOT A SYMBOL!!!!!
     end
   end
 
